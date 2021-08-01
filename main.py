@@ -13,7 +13,8 @@ app = create_app()
 # dont need these if i do "flask run" instead of  "python main.py", otherwise
 # we are just saying to load the function but we never actually call it (which we do with app = create_app())
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=8080, debug=True)
+    app.run(host='localhost', port=5000, debug=True)
+    # app.run(host='0.0.0.0', port=8080, debug=True)
 
 # if __name__ == "__main__":
 #     app.run(debug=True)
