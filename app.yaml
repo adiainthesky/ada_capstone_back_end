@@ -1,0 +1,8 @@
+runtime: python37
+
+# saw the below in a tutorial but not sure if/why i need:
+# env: flex
+# entrypoint: gunicorn -b :$PORT main:app
+
+# runtime_config:
+#   python_version: 3
