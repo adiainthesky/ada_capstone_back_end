@@ -15,6 +15,10 @@ def create_app(test_config=None):
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
     app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get("SQLALCHEMY_DATABASE_URI")
 # Connects db and migrate to our Flask app
+
+    from app.models.trip import Trip
+    from app.models.photo import Photo
+
     db.init_app(app)
     migrate.init_app(app, db)
 

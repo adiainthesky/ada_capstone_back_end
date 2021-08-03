@@ -48,11 +48,17 @@ def get_trip(trip_id):
         return make_response(jsonify(None), 404)
     return jsonify({"trip": trip.api_response()}), 200    
 
+    # customer = Customer.query.get(customer_id)
+    # if customer is None:
+    #     return "Customer not found.", 404
+    # can turn those three lines into: customer = Customer.query.get_or_404(customer_id, description="Customer Id not found")
+
 @trips_bp.route("/<trip_id>", methods=["PUT"])
 def put_trip(trip_id):
     trip = Trip.query.get(trip_id)
     if trip is None:
         return Response(None),404
+        # add more a message above as to why, ie: return {message:"trip was not found"}, 404
     form_data = request.get_json()
     trip.trip_name = form_data["name"]
     trip.country = form_data["country"]

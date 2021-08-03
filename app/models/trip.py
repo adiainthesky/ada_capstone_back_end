@@ -1,7 +1,8 @@
 from flask import current_app
-from app import db
+from main import db
 # i didnt have following in tasklist but i did it videosotre.  do i need?
-# from sqlalchemy import Table, Column, Integer, ForeignKey
+from sqlalchemy import Table, Column, Integer, ForeignKey
+
 
 class Trip(db.Model):
     trip_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
