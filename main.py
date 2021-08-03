@@ -24,16 +24,12 @@ def create_app(test_config=None):
     app.register_blueprint(user_bp)    
     app.register_blueprint(trip_bp)    
     app.register_blueprint(photo_bp)    
-    app.register_blueprint(journal_entry_bp)    
+    app.register_blueprint(journal_entry_bp)  
 
     return app
 
 
-
-
-
 app = create_app()    
-
 
 
 # dont need these if i do "flask run" instead of  "python main.py", otherwise
