@@ -13,7 +13,8 @@ class Trip(db.Model):
     description = db.Column(db.String, nullable=True, default=None)
     photos = db.relationship('Photo', backref='trip', lazy=True)  
     journal_entries = db.relationship('Journal_Entry', backref='trip', lazy=True)  
-
+    # need to connect to user ...
+    
     def api_response(self):
         return (
             {
