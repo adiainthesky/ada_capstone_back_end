@@ -19,12 +19,12 @@ def create_app(test_config=None):
     migrate.init_app(app, db)
 
     #to do -- import models once created
-    from app.routes import user_bp, trip_bp, photo_bp, journal_entry_bp
+    from app.routes import users_bp, trips_bp, photos_bp
 
-    app.register_blueprint(user_bp)    
-    app.register_blueprint(trip_bp)    
-    app.register_blueprint(photo_bp)    
-    app.register_blueprint(journal_entry_bp)  
+    app.register_blueprint(users_bp)    
+    app.register_blueprint(trips_bp)    
+    app.register_blueprint(photos_bp)    
+    # app.register_blueprint(journal_entries_bp)  
 
     return app
 

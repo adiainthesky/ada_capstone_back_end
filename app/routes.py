@@ -3,7 +3,7 @@ from flask import Blueprint
 users_bp = Blueprint("users", __name__, url_prefix="/users")
 trips_bp = Blueprint("trips", __name__, url_prefix="/trips")
 photos_bp = Blueprint("photos", __name__, url_prefix="/photos")
-journal_entries_bp = Blueprint("journal_entries", __name__, url_prefix="/journal_entries")
+# journal_entries_bp = Blueprint("journal_entries", __name__, url_prefix="/journal_entries")
 
 
 
@@ -55,7 +55,7 @@ def put_trip(trip_id):
         return Response(None),404
     form_data = request.get_json()
     trip.trip_name = form_data["name"]
-    trip.country = form_data["description"]
+    trip.country = form_data["country"]
     trip.start_date = form_data["start_date"]
     trip.end_date = form_data["end_date"]
     trip.category = form_data["category"]
@@ -76,3 +76,57 @@ def delete_trip(trip_id):
         {"details": f'Trip {trip.id} "{trip.title}" successfully deleted'
         }
     ), 200
+
+@photos_bp.route("", methods=["POST"])
+def post_photo():
+    request_body = request.get_json()
+    if "img" in request_body.keys():
+        photo = Photo(url_link=request_body["img"],
+                    )
+        db.session.add(photo)
+        db.session.commit()
+        return jsonify({"photo": photo.api_response()}), 201
+    else:
+        return make_response(
+            {"details": "Invalid data"
+            }
+        ), 400
+
+@photos_bp.route("", methods=["GET"])
+def get_photos():
+    # can sort here if i want
+    photos = Photo.query.all()
+    photos_response = [photo.api_response() for photo in photos] 
+    return jsonify(photos_response), 200        
+
+@photos_bp.route("/<photo_id>", methods=["GET"])
+def get_photo(photo_id):
+    photo = Photo.query.get(photo_id)
+    if photo is None:
+        return make_response(jsonify(None), 404)
+    return jsonify({"photo": photo.api_response()}), 200    
+
+@photos_bp.route("/<photo_id>", methods=["PUT"])
+def put_photo(photo_id):
+    photo = photo.query.get(photo_id)
+    if photo is None:
+        return Response(None),404
+    form_data = request.get_json()
+    photo.url_link = form_data["img"]
+    photo.description = form_data["description"]
+    db.session.commit()
+    return jsonify({"photo": photo.api_response()}), 200 
+
+# do i need a patch??        
+
+@photos_bp.route("/<photo_id>", methods=["DELETE"])
+def delete_photo(photo_id):
+    photo = Photo.query.get(photo_id)
+    if photo is None:
+        return Response(None),404
+    db.session.delete(photo)
+    db.session.commit()
+    return make_response(
+        {"details": f'photo {photo.id} "{photo.title}" successfully deleted'
+        }
+    ), 200    
