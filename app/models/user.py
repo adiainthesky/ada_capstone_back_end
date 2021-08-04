@@ -5,12 +5,14 @@ from sqlalchemy import Table, Column, Integer, ForeignKey
 
 
 class User(db.Model):
-    user_name = db.Column(db.String, primary_key=True)
+    user_id = db.Column(db.Integer, primary_key=True)
+    user_name = db.Column(db.String)
     trips = db.relationship('Trip', backref='user', lazy=True)  
     
     def api_response(self):
         return (
             {
-                "user_name": self.user_name,
+                "user_id": self.user_id,
+                "name": self.user_name,
                 }
             ) 

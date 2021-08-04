@@ -2,6 +2,8 @@ from flask import current_app
 from main import db
 # i didnt have following in tasklist but i did it videosotre.  do i need?
 from sqlalchemy import Table, Column, Integer, ForeignKey
+# do i need the following?
+from app.models.user import User
 
 
 class Trip(db.Model):

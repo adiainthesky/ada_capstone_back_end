@@ -32,7 +32,7 @@ def create_app(test_config=None):
 
     return app
 
-
+# do i need this?
 app = create_app()    
 
 

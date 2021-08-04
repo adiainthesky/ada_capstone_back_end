@@ -1,7 +1,10 @@
 from flask import current_app
 from main import db
 from  app.models.trip import Trip
+# do i need the following?
 from sqlalchemy import Table, Column, Integer, ForeignKey
+# do i need the following?
+from app.models.trip import Trip
 
 class Photo(db.Model):
     photo_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
