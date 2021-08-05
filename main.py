@@ -9,10 +9,12 @@ db = SQLAlchemy()
 migrate = Migrate()
 
 def create_app(test_config=None):
+    print(os.environ)
     app = Flask(__name__)
 
 # Configures the app to include two new SQLAlchemy settings
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+    # below was when storing in .env for local deployment -- do i need to change when using vars in app.yaml?
     app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get("SQLALCHEMY_DATABASE_URI")
 # Connects db and migrate to our Flask app
 

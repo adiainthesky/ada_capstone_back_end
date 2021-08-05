@@ -1,5 +1,11 @@
 runtime: python37
 
+env_variables:
+  SQLALCHEMY_DATABASE_URI: postgresql+psycopg2://postgres:postgres@35.232.187.34
+  CLOUDSQL_CONNECTION_NAME: geophotoalbum:us-central1:geo-photo-album-db
+  CLOUDSQL_USER: postgres
+  CLOUDSQL_PASSWORD: postgresPW  
+
 # saw the below in a tutorial but not sure if/why i need:
 # env: flex
 # entrypoint: gunicorn -b :$PORT main:app
