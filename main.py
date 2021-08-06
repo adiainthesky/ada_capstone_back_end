@@ -3,6 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate     # companion package to SQLAlchemy
 import os   #needed to grab database url variable from .env file
 from dotenv import load_dotenv     #is this also needed for the above?
+import sqlalchemy as real_sqlalchemy
 
 # Sets up db and migrate, which are conventional variables that give us access to database operations
 db = SQLAlchemy()
@@ -69,7 +70,7 @@ def create_app(test_config=None):
     # below was when storing in .env for local deployment -- do i need to change when using vars in app.yaml?
     # app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get("SQLALCHEMY_DATABASE_URI")
     # this is attempt to make it work for google app engine:
-    app.config["SQLALCHEMY_DATABASE_URI"] = db.engine.url.URL.create(
+    app.config["SQLALCHEMY_DATABASE_URI"] = real_sqlalchemy.engine.url.URL.create(
         drivername="postgresql+pg8000",
         username=db_user,  # e.g. "my-database-user"
         password=db_pass,  # e.g. "my-database-password"
