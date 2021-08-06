@@ -17,16 +17,20 @@ db_connection_name = os.environ.get('CLOUD_SQL_CONNECTION_NAME')
 
 def open_connection():
     unix_socket = '/cloudsql/{}'.format(db_connection_name)
-    print(unix_socket)
+    print
     try:
+        print("$$$$$$$$$$$$$$$")
+        print(os.environ.get('GAE_ENV'))
         if os.environ.get('GAE_ENV') == 'standard':
+            print("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^")
             conn = db.connect(user=db_user, password=db_password,
                                 unix_socket=unix_socket, db=db_name,
                                 cursorclass=db.cursors.DictCursor
                                 )
+            print(f'***********{conn}***********')                    
     except Exception as e:
     # except db.MySQLError as e:
-        print(e)
+        print(f'*********{e}**********')
 
     return conn
 
@@ -39,6 +43,7 @@ def open_connection():
 # pool = db.create_engine(
 
 #     # Equivalent URL:
+# postgresql+pg8000://postgres:postgresPW@/geo-photo-album-db?unix_sock=<socket_path>/geophotoalbum:us-central1:geo-photo-album-db/.s.PGSQL.5432
 #     # postgresql+pg8000://<db_user>:<db_pass>@/<db_name>?unix_sock=<socket_path>/<cloud_sql_instance_name>/.s.PGSQL.5432
 #     db.engine.url.URL.create(
 #         drivername="postgresql+pg8000",
@@ -51,7 +56,7 @@ def open_connection():
 #                 cloud_sql_connection_name)  # i.e "<PROJECT-NAME>:<INSTANCE-REGION>:<INSTANCE-NAME>"
 #         }
 #     ),
-#     **db_config
+#  **db_config
 # )
 
 # if in dev use: env vars, else, use google cloud vars for prodcuton
@@ -63,7 +68,9 @@ def create_app(test_config=None):
 # Configures the app to include two new SQLAlchemy settings
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
     # below was when storing in .env for local deployment -- do i need to change when using vars in app.yaml?
-    app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get("SQLALCHEMY_DATABASE_URI")
+    # app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get("SQLALCHEMY_DATABASE_URI")
+    # this is attempt to make it work for google app engine:
+    app.config["SQLALCHEMY_DATABASE_URI"] = open_connection()
 # Connects db and migrate to our Flask app
 
     from app.models.trip import Trip
