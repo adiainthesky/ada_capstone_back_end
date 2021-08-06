@@ -23,11 +23,12 @@ def open_connection():
         print(os.environ.get('GAE_ENV'))
         if os.environ.get('GAE_ENV') == 'standard':
             print("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^")
+            print(f'%%%%%%%%%%%{db}%%%%%%%%%%%%')
             conn = db.connect(user=db_user, password=db_password,
                                 unix_socket=unix_socket, db=db_name,
                                 cursorclass=db.cursors.DictCursor
                                 )
-            print(f'***********{conn}***********')                    
+            print(f'@@@@@@@@@{conn}@@@@@@@@')                    
     except Exception as e:
     # except db.MySQLError as e:
         print(f'*********{e}**********')
