@@ -72,7 +72,6 @@ def create_app(test_config=None):
     # this is attempt to make it work for google app engine:
     app.config["SQLALCHEMY_DATABASE_URI"] = f"postgresql+pg8000://{db_user}:{db_pass}@/{db_name}?unix_sock={db_socket_dir}/{cloud_sql_connection_name}/.s.PGSQL.5432"
     print(f'this is the database string {app.config["SQLALCHEMY_DATABASE_URI"]}')
-    postgresql+pg8000://None:postgresPW@/geo-photo-album-db?unix_sock=/cloudsql/geophotoalbum:us-central1:geo-photo-album-db/.s.PGSQL.5432
     # app.config["SQLALCHEMY_DATABASE_URI"] = real_sqlalchemy.engine.url.URL.create(
     #     drivername="postgresql+pg8000",
     #     username=db_user,  # e.g. "my-database-user"
