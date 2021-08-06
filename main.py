@@ -70,17 +70,18 @@ def create_app(test_config=None):
     # below was when storing in .env for local deployment -- do i need to change when using vars in app.yaml?
     # app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get("SQLALCHEMY_DATABASE_URI")
     # this is attempt to make it work for google app engine:
-    app.config["SQLALCHEMY_DATABASE_URI"] = real_sqlalchemy.engine.url.URL.create(
-        drivername="postgresql+pg8000",
-        username=db_user,  # e.g. "my-database-user"
-        password=db_pass,  # e.g. "my-database-password"
-        database=db_name,  # e.g. "my-database-name"
-        query={
-            "unix_sock": "{}/{}/.s.PGSQL.5432".format(
-                db_socket_dir,  # e.g. "/cloudsql"
-                cloud_sql_connection_name)  # i.e "<PROJECT-NAME>:<INSTANCE-REGION>:<INSTANCE-NAME>"
-        }
-    )
+    app.config["SQLALCHEMY_DATABASE_URI"] = f"postgresql+pg8000://{db_user}:{db_pass}@/{db_name}?unix_sock={db_socket_dir}/{cloud_sql_connection_name}/.s.PGSQL.5432"
+    # app.config["SQLALCHEMY_DATABASE_URI"] = real_sqlalchemy.engine.url.URL.create(
+    #     drivername="postgresql+pg8000",
+    #     username=db_user,  # e.g. "my-database-user"
+    #     password=db_pass,  # e.g. "my-database-password"
+    #     database=db_name,  # e.g. "my-database-name"
+    #     query={
+    #         "unix_sock": "{}/{}/.s.PGSQL.5432".format(
+    #             db_socket_dir,  # e.g. "/cloudsql"
+    #             cloud_sql_connection_name)  # i.e "<PROJECT-NAME>:<INSTANCE-REGION>:<INSTANCE-NAME>"
+    #     }
+    # )
 # Connects db and migrate to our Flask app
 
     from app.models.trip import Trip
