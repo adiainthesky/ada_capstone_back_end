@@ -39,22 +39,24 @@ db_socket_dir = os.environ.get('DB_SOCKET_DIR', '/cloudsql')
 
 
 
-pool = db.create_engine(
-    # Equivalent URL:
-    # postgresql+pg8000://postgres:postgresPW@/geo-photo-album-db?unix_sock=<socket_path>/geophotoalbum:us-central1:geo-photo-album-db/.s.PGSQL.5432
-    # postgresql+pg8000://<db_user>:<db_pass>@/<db_name>?unix_sock=<socket_path>/<cloud_sql_instance_name>/.s.PGSQL.5432
-    db.engine.url.URL.create(
-        drivername="postgresql+pg8000",
-        username=db_user,  # e.g. "my-database-user"
-        password=db_pass,  # e.g. "my-database-password"
-        database=db_name,  # e.g. "my-database-name"
-        query={
-            "unix_sock": "{}/{}/.s.PGSQL.5432".format(
-                db_socket_dir,  # e.g. "/cloudsql"
-                cloud_sql_connection_name)  # i.e "<PROJECT-NAME>:<INSTANCE-REGION>:<INSTANCE-NAME>"
-        }
-    ),
-)
+# pool = db.create_engine(
+#     # Equivalent URL:
+#     # postgresql+pg8000://postgres:postgresPW@/geo-photo-album-db?unix_sock=<socket_path>/geophotoalbum:us-central1:geo-photo-album-db/.s.PGSQL.5432
+#     # postgresql+pg8000://<db_user>:<db_pass>@/<db_name>?unix_sock=<socket_path>/<cloud_sql_instance_name>/.s.PGSQL.5432
+#     db.engine.url.URL.create(
+#         drivername="postgresql+pg8000",
+#         username=db_user,  # e.g. "my-database-user"
+#         password=db_pass,  # e.g. "my-database-password"
+#         database=db_name,  # e.g. "my-database-name"
+#         query={
+#             "unix_sock": "{}/{}/.s.PGSQL.5432".format(
+#                 db_socket_dir,  # e.g. "/cloudsql"
+#                 cloud_sql_connection_name)  # i.e "<PROJECT-NAME>:<INSTANCE-REGION>:<INSTANCE-NAME>"
+#         }
+#     ),
+# )
+
+
 
 # if in dev use: env vars, else, use google cloud vars for prodcuton
 
@@ -67,7 +69,17 @@ def create_app(test_config=None):
     # below was when storing in .env for local deployment -- do i need to change when using vars in app.yaml?
     # app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get("SQLALCHEMY_DATABASE_URI")
     # this is attempt to make it work for google app engine:
-    app.config["SQLALCHEMY_DATABASE_URI"] = pool
+    app.config["SQLALCHEMY_DATABASE_URI"] = db.engine.url.URL.create(
+        drivername="postgresql+pg8000",
+        username=db_user,  # e.g. "my-database-user"
+        password=db_pass,  # e.g. "my-database-password"
+        database=db_name,  # e.g. "my-database-name"
+        query={
+            "unix_sock": "{}/{}/.s.PGSQL.5432".format(
+                db_socket_dir,  # e.g. "/cloudsql"
+                cloud_sql_connection_name)  # i.e "<PROJECT-NAME>:<INSTANCE-REGION>:<INSTANCE-NAME>"
+        }
+    )
 # Connects db and migrate to our Flask app
 
     from app.models.trip import Trip
