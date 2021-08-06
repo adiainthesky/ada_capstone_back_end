@@ -10,7 +10,7 @@ db = SQLAlchemy()
 migrate = Migrate()
 
 # vars that i am getting from my environment (which here is app.yaml)
-db_user = os.environ.get('CLOUD_SQL_USERNAME')
+db_user = os.environ.get('CLOUD_SQL_USER')
 db_pass = os.environ.get('CLOUD_SQL_PASSWORD')
 db_name = os.environ.get('CLOUD_SQL_DATABASE_NAME')
 # db_connection_name = os.environ.get('CLOUD_SQL_CONNECTION_NAME')
@@ -71,6 +71,8 @@ def create_app(test_config=None):
     # app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get("SQLALCHEMY_DATABASE_URI")
     # this is attempt to make it work for google app engine:
     app.config["SQLALCHEMY_DATABASE_URI"] = f"postgresql+pg8000://{db_user}:{db_pass}@/{db_name}?unix_sock={db_socket_dir}/{cloud_sql_connection_name}/.s.PGSQL.5432"
+    print(f'this is the database string {app.config["SQLALCHEMY_DATABASE_URI"]}')
+    postgresql+pg8000://None:postgresPW@/geo-photo-album-db?unix_sock=/cloudsql/geophotoalbum:us-central1:geo-photo-album-db/.s.PGSQL.5432
     # app.config["SQLALCHEMY_DATABASE_URI"] = real_sqlalchemy.engine.url.URL.create(
     #     drivername="postgresql+pg8000",
     #     username=db_user,  # e.g. "my-database-user"
