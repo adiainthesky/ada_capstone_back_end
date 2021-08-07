@@ -8,6 +8,7 @@ import requests
 import os
 from dotenv import load_dotenv
 
+#####LATER: create an HTML intro page welcome_bp w/ get method
 users_bp = Blueprint("users", __name__, url_prefix="/users")
 trips_bp = Blueprint("trips", __name__, url_prefix="/trips")
 photos_bp = Blueprint("photos", __name__, url_prefix="/photos")
@@ -138,6 +139,7 @@ def post_photo():
         photo = Photo(url_link=request_body["img"],
                 description=request_body["description"]
                 )
+######## add process here to send photos to datastore and get back Url
         db.session.add(photo)
         db.session.commit()
         return jsonify({"photo": photo.api_response()}), 201
@@ -145,6 +147,7 @@ def post_photo():
 @photos_bp.route("", methods=["GET"])
 def get_photos():
     photos = Photo.query.all()
+######## add process here to send url to datastore and get back photos
     photos_response = [photo.api_response() for photo in photos] 
     return jsonify(photos_response), 200        
 

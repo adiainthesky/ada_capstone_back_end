@@ -1,5 +1,9 @@
 #!/bin/sh
-FLASK_APP=main.py && flask run
+export FLASK_APP=main.py 
+flask run
 
-# for this to be executed, need to run following once in terminal:
-# chmod +x run_app.sh
+# PUT IN README:
+# for above code to be executed, need to run following once in terminal:
+# $ chmod +x run_app.sh
+# Then every time I want to run the local server, instead of writing "flask run", I will write:
+# $ ./run_app.sh
